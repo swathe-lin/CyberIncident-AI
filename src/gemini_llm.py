@@ -5,19 +5,26 @@ from google.genai import types
 
 from rag import build_rag_context
 
-
 # ============================================================
 # GEMINI CONFIGURATION
 # ============================================================
 
+import streamlit as st
+
 API_KEY = os.getenv("GEMINI_API_KEY")
+
+if not API_KEY:
+    try:
+        API_KEY = st.secrets.get("GEMINI_API_KEY")
+    except Exception:
+        API_KEY = None
 
 MODEL_NAME = "gemini-3.5-flash-lite"
 
-
 if not API_KEY:
     raise RuntimeError(
-        "GEMINI_API_KEY is not set."
+        "GEMINI_API_KEY is not set. "
+        "Add it to .streamlit/secrets.toml."
     )
 
 
