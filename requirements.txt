@@ -1,6 +1,6 @@
 ﻿streamlit==1.64.0
 google-genai==2.25.0
 pypdf==6.19.0
-spacy==3.8.7
-numpy==1.26.4
+spacy==3.8.16
+numpy==2.4.6
 en_core_web_sm @ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl
