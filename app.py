@@ -591,85 +591,42 @@ textarea::placeholder {
     color: #155a9e !important;
 }
 
+
 /* ============================================================
-   ANALYZE BUTTON
+   VIBRANT & ULTRA-VISIBLE ANALYZE BUTTON
    ============================================================ */
 
 .stButton > button {
-
     width: 100%;
-
-    min-height: 55px;
-
+    min-height: 58px;
     border-radius: 14px;
-
-    border: none !important;
-
+    border: 2px solid rgba(255, 255, 255, 0.4) !important;
     background:
-
         linear-gradient(
             135deg,
-            #0b83ff,
-            #0757d8
+            #0055ff,
+            #0038b8
         ) !important;
-
-    color:
-        #ffffff !important;
-
-    font-size:
-        15px !important;
-
-    font-weight:
-        800 !important;
-
-    letter-spacing:
-        0.2px;
-
-    box-shadow:
-
-        0 11px 28px
-        rgba(8, 91, 218, 0.28);
-
-    transition:
-        all 0.18s ease;
-
-}
-
-
-.stButton > button p {
-
-    color:
-        #ffffff !important;
-
-}
-
-
-.stButton > button span {
-
-    color:
-        #ffffff !important;
-
+    color: #ffffff !important;
+    font-size: 18px !important;
+    font-weight: 900 !important;
+    letter-spacing: 0.5px;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+    box-shadow: 0 12px 32px rgba(0, 85, 255, 0.4);
+    transition: all 0.2s ease;
 }
 
 
 .stButton > button:hover {
-
-    transform:
-        translateY(-2px);
-
+    transform: translateY(-2px);
     background:
-
         linear-gradient(
             135deg,
-            #1490ff,
-            #0750c8
+            #1a66ff,
+            #002ca0
         ) !important;
-
-    box-shadow:
-
-        0 15px 32px
-        rgba(8, 91, 218, 0.34);
-
+    color: #ffffff !important;
+    box-shadow: 0 15px 38px rgba(0, 85, 255, 0.5);
 }
 
 
@@ -2886,12 +2843,9 @@ if analyze or (page in ("Analysis Results", "Evaluation") and st.session_state.g
         st.markdown(f'<div class="result-soft-panel">{summary}</div>', unsafe_allow_html=True)
 
         st.markdown('<div class="result-section-title">✅ Recommended Actions</div>', unsafe_allow_html=True)
-        # Recommendations are shown directly without an extra empty coloured box.
         for idx, recommendation in enumerate(recommendations, start=1):
             st.markdown(f'<div class="result-recommendation"><b>{idx}.</b> {recommendation}</div>', unsafe_allow_html=True)
 
-        # RAG panel: styled to match the supplied reference while preserving the
-        # actual retrieved text and similarity scores from the existing pipeline.
         retrieved_results = rag_result.get("retrieved_knowledge", []) if isinstance(rag_result, dict) else []
         retrieved_results = retrieved_results if isinstance(retrieved_results, list) else []
         rag_rows = []
@@ -2986,7 +2940,6 @@ if analyze or (page in ("Analysis Results", "Evaluation") and st.session_state.g
             for idx, item in enumerate(rag_rows):
                 col = source_cols[idx % len(source_cols)]
                 source_text = item["text"]
-                # Keep cards readable while preserving the full actual retrieved passage in an expander.
                 preview = source_text if len(source_text) <= 470 else source_text[:467].rsplit(" ", 1)[0] + "…"
                 title = source_titles[idx] if idx < len(source_titles) else "Retrieved Security Guidance"
                 icon = source_icons[idx] if idx < len(source_icons) else "📄"
@@ -3017,7 +2970,6 @@ if analyze or (page in ("Analysis Results", "Evaluation") and st.session_state.g
             with st.expander("✨ View Detailed AI Analysis"):
                 st.markdown(detailed_analysis)
 
-    # Save the elapsed analysis time after the first successful processing pass.
 if analyze and st.session_state.get("analysis_ready", False):
     st.session_state["analysis_processing_time"] = (
         time.perf_counter() - analysis_start_time
@@ -3098,8 +3050,6 @@ if page == "Evaluation" and st.session_state.get("analysis_ready", False) and "r
             st.markdown('<div class="eval-panel"><div class="eval-panel-title">🧩 Entity Detection</div></div>', unsafe_allow_html=True)
             st.caption(f"Detected entity categories: {detected_categories} of {len(entity_categories)}")
             st.progress(extraction_coverage, text=f"Entity coverage · {extraction_coverage * 100:.1f}%")
-            # Bright horizontal bars are used instead of the dark default Streamlit chart.
-            # Bars show only the entity categories detected in this actual incident.
             category_colours = ["#2787F5", "#19B8A6", "#FFAD42", "#8B5CF6", "#F45B69", "#14A8D4", "#5B78E5"]
             entity_rows_html = []
             for idx, (name, found) in enumerate(detected_by_category.items()):
@@ -3149,23 +3099,3 @@ if page == "Evaluation" and st.session_state.get("analysis_ready", False) and "r
         st.info("These live measurements describe this incident's extraction and retrieval. They are not benchmark accuracy scores. To calculate accuracy, precision, recall, or F1-score, evaluate a labelled set of incidents with known correct answers.")
     except Exception as evaluation_error:
         st.warning(f"Live evaluation could not be calculated: {evaluation_error}")
-
-
-/* ============================================================
-   CENTERED FOOTER STYLING
-   ============================================================ */
-
-.footer {
-    text-align: center !important;
-    color: #6886a6 !important;
-    font-size: 14px !important;
-    font-weight: 600 !important;
-    margin-top: 3rem !important;
-    margin-bottom: 1.5rem !important;
-    width: 100% !important;
-}
-
-</style>
-""",
-    unsafe_allow_html=True
-)
