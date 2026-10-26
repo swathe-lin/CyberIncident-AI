@@ -50,7 +50,7 @@ st.set_page_config(
 
 
 # ============================================================
-# FRONTEND CSS (Balanced Container Width & Centered Footer)
+# FRONTEND CSS (Balanced Container Width, Readable Buttons & Centered Footer)
 # ============================================================
 
 st.markdown(
@@ -345,7 +345,7 @@ textarea::placeholder {
 
 
 /* ============================================================
-   ANALYZE BUTTON
+   ANALYZE & ACTION BUTTONS (VISIBLE & HIGH CONTRAST)
    ============================================================ */
 
 .stButton > button {
@@ -360,9 +360,11 @@ textarea::placeholder {
             #0757d8
         ) !important;
     color: #ffffff !important;
-    font-size: 15px !important;
+    font-size: 16px !important;
     font-weight: 800 !important;
-    box-shadow: 0 11px 28px rgba(8, 91, 218, 0.28);
+    letter-spacing: 0.3px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 11px 28px rgba(8, 91, 218, 0.32);
     transition: all 0.18s ease;
 }
 
@@ -375,6 +377,7 @@ textarea::placeholder {
             #1490ff,
             #0750c8
         ) !important;
+    color: #ffffff !important;
 }
 
 
@@ -990,7 +993,6 @@ if page == "Home":
         unsafe_allow_html=True
     )
 
-    # Clean side-by-side hero columns with ratio [1.1, 0.9] and no overlap
     hero_left, hero_right = st.columns([1.1, 0.9], gap="large")
 
     with hero_left:
@@ -1277,7 +1279,7 @@ if analyze or (page in ("Analysis Results", "Evaluation") and st.session_state.g
         st.session_state.pop("detailed_analysis", None)
 
     if analyze or "rag_result" not in st.session_state:
-        with st.spinner("🔍 Analyzing incident..."):
+        with st.spinner("🔍 Analyzing incident with RAG..."):
             try:
                 rag_result = build_rag_context(incident_text)
                 st.session_state["rag_result"] = rag_result
@@ -1478,7 +1480,7 @@ if page == "Evaluation" and st.session_state.get("analysis_ready", False) and "r
                     f'<div class="chart-row"><div class="chart-row-label">{name.replace("_", " ").title()}<span>{status}</span></div>'
                     f'<div class="chart-track"><div class="chart-fill" style="width:{pct}%;background:{colour};"></div></div></div>'
                 )
-            st.markdown('<div class="colour-chart">'.join(entity_rows_html) + '</div>', unsafe_allow_html=True)
+            st.markdown('<div class="colour-chart">' + ''.join(entity_rows_html) + '</div>', unsafe_allow_html=True)
         with right_panel:
             st.markdown('<div class="eval-panel"><div class="eval-panel-title">📚 RAG Retrieval Evaluation</div></div>', unsafe_allow_html=True)
             r1, r2, r3 = st.columns(3)
@@ -1500,6 +1502,7 @@ if page == "Evaluation" and st.session_state.get("analysis_ready", False) and "r
             else:
                 st.info("The retrieval pipeline did not return numeric similarity scores.")
 
+        # Evaluation Details Table placed at the bottom as requested
         st.markdown('<div class="eval-panel"><div class="eval-panel-title">📋 Evaluation Details</div></div>', unsafe_allow_html=True)
         metric_rows = [
             {"Metric": "Detected attack type", "Description": "Attack type reported for the current incident", "Value": str(attack_type)},
