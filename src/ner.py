@@ -3,33 +3,42 @@
 # Named Entity Recognition (NER)
 # ============================================================
 
-import spacy
 import re
+import spacy
 
 
 # ============================================================
 # LOAD SPACY MODEL
 # ============================================================
 
-try:
-    nlp = spacy.load("en_core_web_sm")
-except OSError:
-    print("ERROR: spaCy English model is not installed.")
-    print("Run:")
-    print("python -m spacy download en_core_web_sm")
-    raise
+def load_nlp_pipeline():
+    """
+    Safely load the spaCy model, automatically downloading
+    en_core_web_sm if not present in the runtime environment.
+    """
+    try:
+        nlp_model = spacy.load("en_core_web_sm")
+    except OSError:
+        from spacy.cli import download
+        download("en_core_web_sm")
+        nlp_model = spacy.load("en_core_web_sm")
+
+    # Prevent duplicate pipes if Streamlit reloads the script
+    if "cyber_ruler" not in nlp_model.pipe_names:
+        ruler = nlp_model.add_pipe(
+            "entity_ruler",
+            name="cyber_ruler",
+            before="ner",
+            config={"overwrite_ents": False}
+        )
+        ruler.add_patterns(patterns)
+
+    return nlp_model
 
 
 # ============================================================
-# CYBERSECURITY ENTITY RULER
+# CYBERSECURITY PATTERNS
 # ============================================================
-
-cyber_ruler = nlp.add_pipe(
-    "entity_ruler",
-    before="ner",
-    config={"overwrite_ents": False}
-)
-
 
 patterns = [
 
@@ -102,8 +111,8 @@ patterns = [
     {"label": "ATTACK_TECHNIQUES", "pattern": "phishing"}
 ]
 
-
-cyber_ruler.add_patterns(patterns)
+# Initialize pipeline
+nlp = load_nlp_pipeline()
 
 
 # ============================================================
@@ -139,10 +148,8 @@ def extract_entities(text):
             entities["PERSON"].append(ent.text)
 
         elif ent.label_ == "ORG":
-            # Prevent false organization detection
-            # for email/mail server
-            if "email server" not in ent.text.lower() \
-                    and "mail server" not in ent.text.lower():
+            # Prevent false organization detection for email/mail server
+            if "email server" not in ent.text.lower() and "mail server" not in ent.text.lower():
                 entities["ORGANIZATION"].append(ent.text)
 
         elif ent.label_ in ["GPE", "LOC"]:
@@ -203,10 +210,7 @@ def extract_entities(text):
     ]
 
     for severity in severity_values:
-        if re.search(
-            r"\b" + re.escape(severity) + r"\b",
-            text_lower
-        ):
+        if re.search(r"\b" + re.escape(severity) + r"\b", text_lower):
             entities["SEVERITY"].append(severity.upper())
 
     # ---------------- AFFECTED SYSTEM ----------------
@@ -271,9 +275,7 @@ def extract_entities(text):
     # ========================================================
 
     for category in entities:
-        entities[category] = list(
-            dict.fromkeys(entities[category])
-        )
+        entities[category] = list(dict.fromkeys(entities[category]))
 
     return entities
 
@@ -304,11 +306,8 @@ if __name__ == "__main__":
     results = extract_entities(sample_incident)
 
     for category, values in results.items():
-
         if values:
-
             print(f"\n{category}:")
-
             for value in values:
                 print(f" - {value}")
 
