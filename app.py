@@ -2399,7 +2399,7 @@ if page == "Home":
         hero_image = ASSETS_DIR / "cybersecurity_hero.png"
         logo_image = ASSETS_DIR / "cybersecurity_logo.png"
         if hero_image.exists():
-            st.image(str(hero_image), use_container_width=True)
+            st.image(str(hero_image), use_column_width=True)
         elif logo_image.exists():
             st.image(str(logo_image), width=360)
         else:
