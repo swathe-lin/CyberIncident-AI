@@ -2370,7 +2370,8 @@ if page == "Home":
         unsafe_allow_html=True
     )
 
-    hero_left, hero_right = st.columns([1.02, 0.98], gap="large", vertical_alignment="center")
+    # FIXED: Removed vertical_alignment="center" and updated ratio to prevent card overlap
+    hero_left, hero_right = st.columns([1.1, 0.9], gap="large")
 
     with hero_left:
         st.markdown(
@@ -2399,7 +2400,8 @@ if page == "Home":
         hero_image = ASSETS_DIR / "cybersecurity_hero.png"
         logo_image = ASSETS_DIR / "cybersecurity_logo.png"
         if hero_image.exists():
-            st.image(str(hero_image), use_column_width=True)
+            # FIXED: Removed use_column_width=True to fix TypeError in modern Streamlit
+            st.image(str(hero_image))
         elif logo_image.exists():
             st.image(str(logo_image), width=360)
         else:
@@ -3101,8 +3103,6 @@ if page == "Evaluation" and st.session_state.get("analysis_ready", False) and "r
             st.markdown('<div class="eval-panel"><div class="eval-panel-title">🧩 Entity Detection</div></div>', unsafe_allow_html=True)
             st.caption(f"Detected entity categories: {detected_categories} of {len(entity_categories)}")
             st.progress(extraction_coverage, text=f"Entity coverage · {extraction_coverage * 100:.1f}%")
-            # Bright horizontal bars are used instead of the dark default Streamlit chart.
-            # Bars show only the entity categories detected in this actual incident.
             category_colours = ["#2787F5", "#19B8A6", "#FFAD42", "#8B5CF6", "#F45B69", "#14A8D4", "#5B78E5"]
             entity_rows_html = []
             for idx, (name, found) in enumerate(detected_by_category.items()):
@@ -3148,7 +3148,8 @@ if page == "Evaluation" and st.session_state.get("analysis_ready", False) and "r
             {"Metric": "Classification accuracy / precision / recall / F1", "Description": "Requires a labelled test dataset with expected outputs; not measured from one incident", "Value": "Not measured"},
         ]
         st.markdown("<style>div[data-testid='stDataFrame']{font-size:15px} div[data-testid='stCaptionContainer'] p{font-size:14px !important}</style>", unsafe_allow_html=True)
-        st.dataframe(metric_rows, use_container_width=True, hide_index=True)
+        # FIXED: Updated deprecated use_container_width to width="stretch"
+        st.dataframe(metric_rows, width="stretch", hide_index=True)
         st.info("These live measurements describe this incident's extraction and retrieval. They are not benchmark accuracy scores. To calculate accuracy, precision, recall, or F1-score, evaluate a labelled set of incidents with known correct answers.")
     except Exception as evaluation_error:
         st.warning(f"Live evaluation could not be calculated: {evaluation_error}")
