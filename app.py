@@ -3151,7 +3151,7 @@ if page == "Evaluation" and st.session_state.get("analysis_ready", False) and "r
         st.warning(f"Live evaluation could not be calculated: {evaluation_error}")
 
 
-* ============================================================
+/* ============================================================
    CENTERED FOOTER STYLING
    ============================================================ */
 
