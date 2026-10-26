@@ -1515,7 +1515,7 @@ if page == "Evaluation" and st.session_state.get("analysis_ready", False) and "r
             {"Metric": "Classification accuracy / precision / recall / F1", "Description": "Requires a labelled test dataset with expected outputs; not measured from one incident", "Value": "Not measured"},
         ]
         st.markdown("<style>div[data-testid='stDataFrame']{font-size:15px} div[data-testid='stCaptionContainer'] p{font-size:14px !important}</style>", unsafe_allow_html=True)
-        st.dataframe(metric_rows, width="stretch", hide_index=True)
+        st.dataframe(metric_rows, use_container_width=True, hide_index=True)
         st.info("These live measurements describe this incident's extraction and retrieval. They are not benchmark accuracy scores. To calculate accuracy, precision, recall, or F1-score, evaluate a labelled set of incidents with known correct answers.")
     except Exception as evaluation_error:
         st.warning(f"Live evaluation could not be calculated: {evaluation_error}")
