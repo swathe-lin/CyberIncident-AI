@@ -50,7 +50,7 @@ st.set_page_config(
 
 
 # ============================================================
-# FRONTEND CSS (Vibrant Buttons, Aligned Boxes, Readable Text)
+# FRONTEND CSS (Vibrant Button & High-Contrast Box Text)
 # ============================================================
 
 st.markdown(
@@ -80,7 +80,7 @@ st.markdown(
             #e3f2ff 55%,
             #c9e5ff 100%
         );
-    color: #102a43;
+    color: #0b2238;
 }
 
 
@@ -201,7 +201,7 @@ footer {
 
 
 .hero-title span {
-    color: #0866ef !important;
+    color: #0066ff !important;
 }
 
 
@@ -231,16 +231,16 @@ h3 {
 
 
 /* ============================================================
-   NORMAL TEXT & INPUTS
+   NORMAL TEXT & INPUTS (High Contrast & Clear Readability)
    ============================================================ */
 
 .stApp p {
-    color: #244663;
+    color: #163654;
 }
 
 [data-testid="stTextArea"] {
-    background: rgba(255,255,255,0.96) !important;
-    border: 1px solid #a3d0f5 !important;
+    background: rgba(255,255,255,0.98) !important;
+    border: 1px solid #8abff5 !important;
     border-radius: 18px !important;
     box-shadow: 0 10px 28px rgba(25, 90, 145, 0.08);
 }
@@ -248,33 +248,40 @@ h3 {
 
 textarea {
     background: #ffffff !important;
-    color: #103358 !important;
+    color: #092642 !important;
     border-radius: 15px !important;
     font-size: 15px !important;
     line-height: 1.65 !important;
+    font-weight: 600 !important;
+}
+
+
+textarea::placeholder {
+    color: #55789a !important;
 }
 
 
 /* ============================================================
-   VIBRANT & FULLY VISIBLE BUTTONS ("Get Started" & "Analyze")
+   VIBRANT & ULTRA-VISIBLE ANALYZE BUTTON
    ============================================================ */
 
 .stButton > button {
     width: 100%;
-    min-height: 56px;
+    min-height: 58px;
     border-radius: 14px;
-    border: none !important;
+    border: 2px solid rgba(255, 255, 255, 0.4) !important;
     background:
         linear-gradient(
             135deg,
-            #0066ff,
-            #004de6
+            #0055ff,
+            #0038b8
         ) !important;
     color: #ffffff !important;
-    font-size: 17px !important;
-    font-weight: 800 !important;
-    letter-spacing: 0.4px;
-    box-shadow: 0 12px 30px rgba(0, 102, 255, 0.35);
+    font-size: 18px !important;
+    font-weight: 900 !important;
+    letter-spacing: 0.5px;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+    box-shadow: 0 12px 32px rgba(0, 85, 255, 0.4);
     transition: all 0.2s ease;
 }
 
@@ -284,11 +291,11 @@ textarea {
     background:
         linear-gradient(
             135deg,
-            #1a75ff,
-            #0042d1
+            #1a66ff,
+            #002ca0
         ) !important;
     color: #ffffff !important;
-    box-shadow: 0 14px 34px rgba(0, 102, 255, 0.45);
+    box-shadow: 0 15px 38px rgba(0, 85, 255, 0.5);
 }
 
 
@@ -298,7 +305,7 @@ textarea {
 
 .footer {
     text-align: center !important;
-    color: #4b6f93 !important;
+    color: #3b6185 !important;
     font-size: 14px !important;
     font-weight: 600 !important;
     margin-top: 3rem !important;
@@ -328,16 +335,16 @@ st.markdown(
     .app-brand-logo{width:48px;height:48px;object-fit:contain;background:transparent !important;border-radius:0 !important;padding:0 !important;border:0 !important;box-shadow:none !important;flex:0 0 48px}
     .app-brand-copy{display:flex;flex-direction:column;justify-content:center;min-width:0}
     .app-brand-title{font-size:24px;line-height:1.08;font-weight:850;color:#092f63;white-space:nowrap}
-    .app-brand-title span{color:#0875ed}
-    .app-brand-subtitle{font-size:10px;color:#4b6f93;margin-top:4px;white-space:nowrap;letter-spacing:.2px}
+    .app-brand-title span{color:#0055ff}
+    .app-brand-subtitle{font-size:10px;color:#3b6185;margin-top:4px;white-space:nowrap;letter-spacing:.2px}
     div[data-testid="stRadio"]{margin:0 !important}
     div[data-testid="stRadio"] > label{display:none !important}
     div[data-testid="stRadio"] > div{gap:8px;align-items:center;flex-wrap:nowrap}
     div[data-testid="stRadio"] [role="radiogroup"]{gap:8px}
     div[data-testid="stRadio"] label{background:#f8fbff;border:1px solid #d7e8f9;border-radius:12px;padding:10px 12px;min-height:44px;white-space:nowrap;margin:0 !important;transition:all .18s ease;box-shadow:0 2px 5px rgba(30,100,170,.025)}
     div[data-testid="stRadio"] label:hover{border-color:#83bdff;background:#eef7ff}
-    div[data-testid="stRadio"] label p{font-size:13px !important;font-weight:750;color:#123b70;margin:0}
-    div[data-testid="stRadio"] label:has(input:checked){background:#0875ed;border-color:#0875ed}
+    div[data-testid="stRadio"] label p{font-size:13px !important;font-weight:750;color:#0c305c;margin:0}
+    div[data-testid="stRadio"] label:has(input:checked){background:#0055ff;border-color:#0055ff}
     div[data-testid="stRadio"] label:has(input:checked) p{color:white !important}
     </style>
     """,
@@ -500,7 +507,7 @@ if page == "Home":
           font-size:13px;font-weight:800;letter-spacing:.55px;margin:0 0 18px}
         .home-title{color:#092f63;font-size:clamp(42px,4.5vw,61px);line-height:1.04;
           letter-spacing:-1.7px;font-weight:900;margin:0 0 12px}
-        .home-title span{color:#0066ff}
+        .home-title span{color:#0055ff}
         .home-subtitle{color:#345d87;font-size:25px;line-height:1.2;
           font-weight:850;letter-spacing:.1px;margin:0 0 13px}
         .home-description{color:#2e5379;font-size:19px;line-height:1.55;
@@ -513,7 +520,7 @@ if page == "Home":
           box-shadow:0 8px 20px rgba(40,105,171,.07)}
         .home-feature-icon{width:60px;height:60px;display:flex;align-items:center;
           justify-content:center;margin:0 auto 10px;border-radius:50%;
-          background:#e0efff;color:#0066ff;font-size:29px}
+          background:#e0efff;color:#0055ff;font-size:29px}
         .home-feature-title{color:#0b3268;font-weight:850;font-size:17px;line-height:1.25;margin-bottom:6px}
         .home-feature-description{color:#2e5379;font-size:14px;line-height:1.4}
         </style>
@@ -615,60 +622,60 @@ if page == "Upload Incident":
             width:48px; height:48px; display:flex; align-items:center;
             justify-content:center; border-radius:15px;
             background:linear-gradient(135deg,#e7f3ff,#c8e5ff);
-            color:#0875ee; font-size:27px; font-weight:800;
+            color:#0055ff; font-size:27px; font-weight:800;
             box-shadow:0 5px 16px rgba(27,116,224,.10);
         }
         .upload-page-heading h2 {
-            color:#103d73; font-size:30px; line-height:1.2;
+            color:#0c305c; font-size:30px; line-height:1.2;
             margin:0 0 5px; font-weight:800;
         }
-        .upload-page-heading p { color:#4b6f93; font-size:16px; margin:0; }
+        .upload-page-heading p { color:#2e5379; font-size:16px; margin:0; font-weight:600; }
         .st-key-upload_file_card, .st-key-upload_details_card {
-            background:rgba(255,255,255,.94);
-            border:1px solid #cfe3f8;
+            background:rgba(255,255,255,.98);
+            border:1px solid #b8d7f8;
             border-radius:18px;
-            padding:16px 14px 14px;
-            min-height:330px;
-            box-shadow:0 10px 28px rgba(38,113,191,.07);
+            padding:18px 16px 16px;
+            min-height:340px;
+            box-shadow:0 10px 28px rgba(38,113,191,.08);
         }
         .upload-panel-title {
             display:flex; align-items:center; gap:10px;
-            color:#103d73; font-size:16px; font-weight:750;
-            margin:0 0 7px;
+            color:#0c305c; font-size:17px; font-weight:800;
+            margin:0 0 8px;
         }
         .upload-panel-subtitle {
-            color:#4b6f93; font-size:13px; line-height:1.45;
-            margin-bottom:12px;
+            color:#3b6185; font-size:13.5px; line-height:1.5;
+            margin-bottom:14px; font-weight:600;
         }
         .upload-drop-hint {
-            text-align:center; padding:6px 8px 2px;
-            color:#4b6f93; font-size:13px;
+            text-align:center; padding:8px 8px 4px;
+            color:#1e4468; font-size:13.5px; font-weight:700;
         }
-        .upload-cloud { color:#0066ff; font-size:29px; line-height:1.25; }
+        .upload-cloud { color:#0055ff; font-size:30px; line-height:1.25; }
         .upload-formats {
-            color:#4b6f93; font-size:12px; line-height:1.45; margin-top:9px;
+            color:#3b6185; font-size:12.5px; line-height:1.5; margin-top:10px; font-weight:600;
         }
         .or-divider {
-            min-height:330px; display:flex; align-items:center;
-            justify-content:center; color:#4b6f93; font-size:14px;
+            min-height:340px; display:flex; align-items:center;
+            justify-content:center; color:#2e5379; font-size:14px;
         }
         .or-divider span {
-            display:inline-flex; width:34px; height:34px; border-radius:50%;
+            display:inline-flex; width:36px; height:36px; border-radius:50%;
             align-items:center; justify-content:center; background:#e1effd;
-            border:1px solid #c5def7; color:#245b92; font-weight:700;
+            border:1px solid #b2d5f7; color:#0c305c; font-weight:800;
         }
         div[data-testid="stFileUploader"] {
-            background:#f5faff; border:1px dashed #0066ff;
-            border-radius:12px; padding:7px;
+            background:#f4f9ff; border:1px dashed #0055ff;
+            border-radius:12px; padding:8px;
         }
         div[data-testid="stTextArea"] textarea {
-            min-height:170px !important; background:#fbfdff !important;
-            color:#103358 !important; border:1px solid #a3d0f5 !important;
-            border-radius:11px !important; font-size:14px !important;
-            line-height:1.5 !important;
+            min-height:180px !important; background:#ffffff !important;
+            color:#0c305c !important; border:1px solid #8abff5 !important;
+            border-radius:11px !important; font-size:14.5px !important;
+            line-height:1.55 !important; font-weight:600 !important;
         }
         .upload-footer-note {
-            color:#4b6f93; font-size:12px; line-height:1.45; margin-top:7px;
+            color:#3b6185; font-size:12.5px; line-height:1.5; margin-top:8px; font-weight:600;
         }
         </style>
         """,
@@ -845,24 +852,24 @@ if analyze or (page in ("Analysis Results", "Evaluation") and st.session_state.g
         st.markdown("""
         <style>
         .results-page-title{font-size:32px;font-weight:850;color:#103d73;margin:3px 0 2px;letter-spacing:.2px}
-        .results-page-subtitle{font-size:15px;color:#4b6f93;margin-bottom:12px}
-        .result-card{height:100%;background:rgba(255,255,255,.96);border:1px solid #cfe3f8;
+        .results-page-subtitle{font-size:15px;color:#3b6185;margin-bottom:12px;font-weight:600}
+        .result-card{height:100%;background:rgba(255,255,255,.98);border:1px solid #cfe3f8;
           border-radius:14px;padding:13px 15px;box-shadow:0 5px 14px rgba(35,100,170,.07);margin-bottom:8px}
-        .result-card-label{font-size:14px;color:#4b6f93;margin-bottom:7px;font-weight:650}
-        .result-card-value{font-size:21px;line-height:1.25;color:#234f7b;font-weight:850;overflow-wrap:anywhere}
-        .result-section-title{font-size:22px;color:#103d73;font-weight:850;margin:13px 0 8px}
-        .result-soft-panel{background:rgba(220,239,255,.75);border:1px solid #c6e1fb;border-radius:12px;
-          padding:14px 16px;color:#234f7b;font-size:16px;line-height:1.65;margin:6px 0 14px}
-        .result-detail-box{min-height:155px;background:rgba(255,255,255,.96);border:1px solid #cfe3f8;
+        .result-card-label{font-size:14px;color:#3b6185;margin-bottom:7px;font-weight:700}
+        .result-card-value{font-size:21px;line-height:1.25;color:#0c305c;font-weight:900;overflow-wrap:anywhere}
+        .result-section-title{font-size:22px;color:#0c305c;font-weight:850;margin:13px 0 8px}
+        .result-soft-panel{background:rgba(220,239,255,.85);border:1px solid #b6daf9;border-radius:12px;
+          padding:14px 16px;color:#0c305c;font-size:16px;line-height:1.65;margin:6px 0 14px;font-weight:600}
+        .result-detail-box{min-height:155px;background:rgba(255,255,255,.98);border:1px solid #cfe3f8;
           border-radius:14px;padding:14px 15px;box-shadow:0 5px 14px rgba(35,100,170,.06);margin-bottom:8px}
-        .result-detail-title{color:#315d88;font-size:17px;font-weight:800;margin-bottom:10px}
-        .result-detail-body{color:#234f7b;font-size:15px;line-height:1.55}
-        .result-impact-box{min-height:190px;background:linear-gradient(135deg,rgba(255,255,255,.98),rgba(235,246,255,.96));
-          border:1px solid #bcdcf8;border-top:4px solid #ffad42;border-radius:14px;padding:16px 17px;
+        .result-detail-title{color:#103d73;font-size:17px;font-weight:800;margin-bottom:10px}
+        .result-detail-body{color:#0c305c;font-size:15px;line-height:1.55;font-weight:600}
+        .result-impact-box{min-height:190px;background:linear-gradient(135deg,rgba(255,255,255,.99),rgba(235,246,255,.97));
+          border:1px solid #bcdcf8;border-top:4px solid #ff9900;border-radius:14px;padding:16px 17px;
           box-shadow:0 7px 18px rgba(35,100,170,.08);margin-bottom:8px}
-        .result-impact-title{font-size:16px;color:#315d88;font-weight:800;margin-bottom:9px}
-        .result-impact-text{font-size:16px;color:#234f7b;line-height:1.65}
-        .result-recommendation{padding:7px 0;color:#234f7b;font-size:17px;line-height:1.6;border-bottom:1px solid rgba(190,216,240,.55)}
+        .result-impact-title{font-size:16px;color:#103d73;font-weight:800;margin-bottom:9px}
+        .result-impact-text{font-size:16px;color:#0c305c;line-height:1.65;font-weight:600}
+        .result-recommendation{padding:7px 0;color:#0c305c;font-size:17px;line-height:1.6;border-bottom:1px solid rgba(190,216,240,.55);font-weight:600}
         .result-recommendation:last-child{border-bottom:0}
         </style>
         """, unsafe_allow_html=True)
@@ -964,18 +971,18 @@ if page == "Evaluation" and st.session_state.get("analysis_ready", False) and "r
         st.markdown("""
         <style>
         .eval-heading{color:#103d73;font-size:32px;font-weight:850;margin:8px 0 4px}
-        .eval-subtitle{color:#4b6f93;font-size:15px;margin:0 0 18px}
-        .eval-card{height:100%;background:rgba(255,255,255,.94);border:1px solid #d3e6f8;border-top:4px solid #0066ff;
+        .eval-subtitle{color:#3b6185;font-size:15px;margin:0 0 18px;font-weight:600}
+        .eval-card{height:100%;background:rgba(255,255,255,.96);border:1px solid #d3e6f8;border-top:4px solid #0055ff;
           border-radius:13px;padding:14px 14px;box-shadow:0 6px 18px rgba(35,100,170,.06);margin-bottom:12px}
-        .eval-label{color:#4b6f93;font-size:14px;margin-bottom:7px}
-        .eval-value{color:#234f7b;font-size:24px;font-weight:850;line-height:1.2;overflow-wrap:anywhere}
-        .eval-panel{background:rgba(255,255,255,.92);border:1px solid #d3e6f8;border-radius:14px;padding:16px;margin:10px 0}
+        .eval-label{color:#3b6185;font-size:14px;margin-bottom:7px;font-weight:700}
+        .eval-value{color:#0c305c;font-size:24px;font-weight:900;line-height:1.2;overflow-wrap:anywhere}
+        .eval-panel{background:rgba(255,255,255,.94);border:1px solid #d3e6f8;border-radius:14px;padding:16px;margin:10px 0}
         .eval-panel-title{color:#103d73;font-size:21px;font-weight:800;margin-bottom:10px}
-        .colour-chart{background:rgba(255,255,255,.95);border:1px solid #d3e6f8;border-radius:13px;padding:15px 16px;margin-top:10px;box-shadow:0 5px 14px rgba(35,100,170,.05)}
+        .colour-chart{background:rgba(255,255,255,.96);border:1px solid #d3e6f8;border-radius:13px;padding:15px 16px;margin-top:10px;box-shadow:0 5px 14px rgba(35,100,170,.05)}
         .chart-row{margin:0 0 13px}
         .chart-row:last-child{margin-bottom:0}
-        .chart-row-label{display:flex;justify-content:space-between;gap:10px;color:#234f7b;font-size:15px;font-weight:700;margin-bottom:6px}
-        .chart-row-label span{color:#4b6f93;font-size:14px;font-weight:600;white-space:nowrap}
+        .chart-row-label{display:flex;justify-content:space-between;gap:10px;color:#0c305c;font-size:15px;font-weight:800;margin-bottom:6px}
+        .chart-row-label span{color:#3b6185;font-size:14px;font-weight:700;white-space:nowrap}
         .chart-track{height:13px;background:#eaf2fb;border-radius:99px;overflow:hidden}
         .chart-fill{height:100%;border-radius:99px;min-width:0;transition:width .25s ease}
         </style>
