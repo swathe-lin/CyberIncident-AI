@@ -1380,6 +1380,119 @@ if analyze or (page in ("Analysis Results", "Evaluation") and st.session_state.g
         for idx, recommendation in enumerate(recommendations, start=1):
             st.markdown(f'<div class="result-recommendation"><b>{idx}.</b> {recommendation}</div>', unsafe_allow_html=True)
 
+        # ============================================================
+        # RAG RETRIEVAL EVALUATION SECTION (ADDED)
+        # ============================================================
+        retrieved_results = rag_result.get("retrieved_knowledge", []) if isinstance(rag_result, dict) else []
+        retrieved_results = retrieved_results if isinstance(retrieved_results, list) else []
+        rag_rows = []
+        for result in retrieved_results:
+            if not isinstance(result, dict):
+                continue
+            raw_score = result.get("score", result.get("similarity", 0))
+            try:
+                score = float(raw_score)
+            except (TypeError, ValueError):
+                score = 0.0
+            source_text = re.sub(r"={3,}", "", str(result.get("text", "")).strip()).strip()
+            if source_text:
+                rag_rows.append({"score": max(0.0, score), "text": source_text})
+
+        rag_rows.sort(key=lambda item: item["score"], reverse=True)
+        rag_scores = [item["score"] for item in rag_rows]
+        rag_avg = sum(rag_scores) / len(rag_scores) if rag_scores else 0.0
+        rag_best = max(rag_scores) if rag_scores else 0.0
+
+        st.markdown("""
+        <style>
+        .rag-wrap{background:rgba(255,255,255,.72);border:1px solid #cfe4fa;border-radius:18px;
+          padding:18px;margin:18px 0 12px;box-shadow:0 8px 24px rgba(34,108,180,.07)}
+        .rag-heading{display:flex;align-items:center;gap:10px;color:#103d73;font-size:25px;font-weight:850;margin:0 0 2px}
+        .rag-subheading{color:#6383a5;font-size:14px;margin:0 0 15px 42px}
+        .rag-metric{height:100%;min-height:98px;background:#fff;border:1px solid #d4e7fa;border-radius:13px;
+          padding:13px 14px;box-shadow:0 4px 12px rgba(35,100,170,.04)}
+        .rag-metric-label{color:#5d7c9e;font-size:13px;font-weight:650;margin-bottom:6px}
+        .rag-metric-value{color:#103d73;font-size:23px;font-weight:850;line-height:1.15}
+        .rag-metric-note{color:#6e8ba9;font-size:12px;margin-top:5px}
+        .rag-mini-track{height:8px;background:#e8f0fa;border-radius:99px;overflow:hidden;margin-top:9px}
+        .rag-mini-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,#2587ff,#55b9ff)}
+        .rag-chart{height:100%;background:#fff;border:1px solid #d4e7fa;border-radius:13px;padding:14px 16px}
+        .rag-chart-title{color:#103d73;font-size:16px;font-weight:800;margin-bottom:13px}
+        .rag-chart-row{display:grid;grid-template-columns:62px 1fr 52px;align-items:center;gap:10px;margin:10px 0}
+        .rag-chart-name{font-size:13px;color:#244f7d;font-weight:750}
+        .rag-chart-track{height:12px;background:#e5eef8;border-radius:99px;overflow:hidden}
+        .rag-chart-fill{height:100%;border-radius:99px}
+        .rag-chart-score{text-align:right;color:#6482a2;font-size:12px;font-weight:700}
+        .rag-source-card{height:100%;background:#fff;border:1px solid #d4e7fa;border-radius:15px;
+          padding:13px;box-shadow:0 5px 14px rgba(35,100,170,.05);margin-top:12px}
+        .rag-source-head{display:flex;align-items:center;gap:9px;margin-bottom:10px}
+        .rag-source-icon{display:flex;align-items:center;justify-content:center;width:38px;height:38px;flex:0 0 38px;
+          border-radius:50%;background:#e5f1ff;font-size:20px}
+        .rag-source-name{font-size:15px;font-weight:850;color:#103d73}
+        .rag-source-type{font-size:12px;color:#5d7c9e;margin-top:2px}
+        .rag-score-pill{margin-left:auto;white-space:nowrap;background:#e8f3ff;border:1px solid #c6e2ff;
+          border-radius:99px;padding:5px 8px;color:#0875ed;font-size:11px;font-weight:800}
+        .rag-source-content{background:#f0f7ff;border:1px solid #d9eafb;border-radius:10px;padding:10px;
+          color:#355b82;font-size:12.5px;line-height:1.5;overflow-wrap:anywhere}
+        .rag-source-label{color:#0b4c8e;font-size:12px;font-weight:850;margin-bottom:4px}
+        .rag-why{background:#e8fbf4;border:1px solid #c9f1e2;border-radius:10px;padding:10px;margin-top:8px;
+          color:#326b61;font-size:12px;line-height:1.45}
+        .rag-disclaimer{background:#edf7ff;border:1px solid #d1e8fb;border-radius:10px;padding:9px 12px;
+          color:#587a9d;font-size:12px;line-height:1.45;margin-top:10px}
+        </style>
+        <div class="rag-wrap">
+          <div class="rag-heading">📚 RAG Retrieval Evaluation</div>
+          <div class="rag-subheading">Relevant security guidance retrieved from the cybersecurity knowledge base.</div>
+        </div>
+        """, unsafe_allow_html=True)
+
+        if rag_rows:
+            metric_col, avg_col, best_col, chart_col = st.columns([.82, .95, .88, 1.7], gap="small")
+            with metric_col:
+                st.markdown(f'<div class="rag-metric"><div class="rag-metric-label">📄 Retrieved Sources</div><div class="rag-metric-value">{len(rag_rows)}</div><div class="rag-metric-note">knowledge passages</div></div>', unsafe_allow_html=True)
+            with avg_col:
+                avg_width = max(0, min(100, rag_avg * 100))
+                st.markdown(f'<div class="rag-metric"><div class="rag-metric-label">⚙️ Average Similarity</div><div class="rag-metric-value">{rag_avg:.4f}</div><div class="rag-mini-track"><div class="rag-mini-fill" style="width:{avg_width:.1f}%"></div></div></div>', unsafe_allow_html=True)
+            with best_col:
+                best_width = max(0, min(100, rag_best * 100))
+                st.markdown(f'<div class="rag-metric"><div class="rag-metric-label">🏆 Best Match</div><div class="rag-metric-value">{rag_best:.4f}</div><div class="rag-mini-track"><div class="rag-mini-fill" style="width:{best_width:.1f}%;background:linear-gradient(90deg,#8b5cf6,#b69cff)"></div></div></div>', unsafe_allow_html=True)
+            with chart_col:
+                palette = ["#3697f5", "#19bba9", "#8b5cf6", "#ffad42", "#f45b69", "#14a8d4"]
+                max_score = max(rag_scores) if rag_scores else 0.0
+                chart_html = '<div class="rag-chart"><div class="rag-chart-title">📊 Source Similarity Comparison</div>'
+                for idx, item in enumerate(rag_rows):
+                    width = (item["score"] / max_score * 100) if max_score > 0 else 0
+                    colour = palette[idx % len(palette)]
+                    chart_html += (f'<div class="rag-chart-row"><div class="rag-chart-name">Source {idx+1}</div>'
+                                   f'<div class="rag-chart-track"><div class="rag-chart-fill" style="width:{width:.1f}%;background:{colour}"></div></div>'
+                                   f'<div class="rag-chart-score">{item["score"]:.4f}</div></div>')
+                chart_html += '</div>'
+                st.markdown(chart_html, unsafe_allow_html=True)
+
+            source_cols = st.columns(min(3, len(rag_rows)), gap="small")
+            source_titles = ["Incident Response Guidance", "Authentication Monitoring", "Threat Mitigation Guidance"]
+            source_icons = ["📄", "🟩", "📘"]
+            for idx, item in enumerate(rag_rows):
+                col = source_cols[idx % len(source_cols)]
+                source_text = item["text"]
+                preview = source_text if len(source_text) <= 470 else source_text[:467].rsplit(" ", 1)[0] + "…"
+                title = source_titles[idx] if idx < len(source_titles) else "Retrieved Security Guidance"
+                icon = source_icons[idx] if idx < len(source_icons) else "📄"
+                with col:
+                    st.markdown(
+                        f'<div class="rag-source-card"><div class="rag-source-head"><div class="rag-source-icon">{icon}</div>'
+                        f'<div><div class="rag-source-name">Source {idx+1}</div><div class="rag-source-type">{title}</div></div>'
+                        f'<div class="rag-score-pill">Similarity: {item["score"]:.4f}</div></div>'
+                        f'<div class="rag-source-content"><div class="rag-source-label">📑 Retrieved Information</div>{preview}</div>'
+                        f'<div class="rag-why"><b>💡 Why it matters</b><br>Retrieved because this passage matched the current incident query. Review the full passage to confirm its relevance to the incident.</div></div>',
+                        unsafe_allow_html=True
+                    )
+                    with st.expander("View Retrieved Content"):
+                        st.write(source_text)
+            st.markdown('<div class="rag-disclaimer">ℹ️ Similarity scores show how closely a retrieved passage matches the incident query according to the retrieval model. Higher scores mean stronger similarity within this retrieval setup; they do not guarantee factual correctness.</div>', unsafe_allow_html=True)
+        else:
+            st.info("No matching cybersecurity knowledge was retrieved for this incident.")
+
     detailed_analysis = st.session_state.get("detailed_analysis", "")
     if not detailed_analysis and page == "Analysis Results":
         try:
