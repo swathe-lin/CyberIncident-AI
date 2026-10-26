@@ -1026,7 +1026,7 @@ st.markdown(
 if st.session_state.pop("navigate_to_upload", False):
     st.session_state["main_navigation"] = "Upload Incident"
 
-nav_brand_col, nav_links_col = st.columns([1.35, 2.05], gap="small", vertical_alignment="center")
+nav_brand_col, nav_links_col = st.columns([1.35, 2.05], gap="small")
 with nav_brand_col:
     if LOGO_BASE64:
         logo_html = f'<img class="app-brand-logo" src="data:image/png;base64,{LOGO_BASE64}" alt="CyberIncident AI logo">'
@@ -2324,95 +2324,30 @@ def read_uploaded_file(
 
 
 if page == "Home":
-    # Homepage-only styling. Upload Incident, Analysis Results and Evaluation content stay unchanged.
-    st.markdown(
-        """
-        <style>
-        .home-hero{display:flex;align-items:center;gap:34px;padding:10px 8px 24px}
-        .home-copy{flex:1.02;min-width:0}
-        .home-art{flex:.98;min-width:0}
-        .home-badge{display:inline-block;padding:9px 16px;border-radius:24px;
-          background:#d7eaff;border:1px solid #b7d9ff;color:#0758b7;
-          font-size:13px;font-weight:800;letter-spacing:.55px;margin:0 0 18px}
-        .home-title{color:#092f63;font-size:clamp(42px,4.5vw,61px);line-height:1.04;
-          letter-spacing:-1.7px;font-weight:900;margin:0 0 12px}
-        .home-title span{color:#0875ed}
-        .home-subtitle{color:#345d87;font-size:25px;line-height:1.2;
-          font-weight:850;letter-spacing:.1px;margin:0 0 13px}
-        .home-description{color:#456b94;font-size:19px;line-height:1.55;
-          max-width:660px;margin:0 0 20px}
-        .home-highlights{display:flex;gap:26px;flex-wrap:wrap;color:#365d86;
-          font-size:16px;font-weight:750;margin:18px 0 24px}
-        div[data-testid="stHorizontalBlock"]:has(.home-badge) div[data-testid="stImage"]{
-          background:rgba(255,255,255,.58);border:1px solid rgba(255,255,255,.9);
-          border-radius:25px;padding:16px;box-shadow:0 15px 36px rgba(35,110,180,.12);
-        }
-        div[data-testid="stHorizontalBlock"]:has(.home-badge) div[data-testid="stImage"] img{
-          border-radius:17px;display:block;
-        }
-        .home-feature-card{box-sizing:border-box;height:100%;min-height:166px;text-align:center;
-          background:rgba(255,255,255,.96);border:1px solid #d2e6fb;
-          border-radius:18px;padding:16px 12px 14px;
-          box-shadow:0 8px 20px rgba(40,105,171,.07)}
-        .home-feature-icon{width:60px;height:60px;display:flex;align-items:center;
-          justify-content:center;margin:0 auto 10px;border-radius:50%;
-          background:#e0efff;color:#0875ed;font-size:29px}
-        .home-feature-title{color:#0b3268;font-weight:850;font-size:17px;line-height:1.25;margin-bottom:6px}
-        .home-feature-description{color:#456b94;font-size:14px;line-height:1.4}
-        div[data-testid="stButton"] button[kind="primary"]{font-size:18px !important;
-          font-weight:800 !important;padding:13px 25px !important;border-radius:16px !important;
-          min-height:54px;box-shadow:0 10px 22px rgba(0,100,235,.20)}
-        .home-footer{border-top:1px solid #cfe2f5;margin-top:26px;padding:18px 0 3px;
-          text-align:center;color:#6c8cad;font-size:14px}
-        @media(max-width:900px){.home-title{font-size:42px}.home-subtitle{font-size:21px}.home-description{font-size:17px}}
-        </style>
-        """,
-        unsafe_allow_html=True
-    )
-
-    hero_left, hero_right = st.columns([1.05, 0.95], gap="large")
-
+    hero_left, hero_right = st.columns([1.1, 0.9], gap="large")
+    
     with hero_left:
-        st.markdown(
-            """
-            <div class="home-badge">🔐 AI-POWERED CYBERSECURITY ANALYSIS</div>
-            <h1 class="home-title">Cyber<span>Incident AI</span></h1>
-            <p class="home-subtitle">CYBERSECURITY INCIDENT ANALYSIS REPORT</p>
-            <p class="home-description">
-                Upload incident reports or enter incident details to get AI-assisted
-                analysis, extracted entities, relevant cybersecurity knowledge,
-                potential impact and recommended response actions.
-            </p>
-            <div class="home-highlights">
-                <span>🛡️ Threat Detection</span>
-                <span>🔎 Incident Analysis</span>
-                <span>🧠 AI Intelligence</span>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
-        if st.button("Get Started  →", type="primary", key="home_get_started"):
+        st.markdown('<div class="hero-badge">🔒 AI-POWERED CYBERSECURITY ANALYSIS</div>', unsafe_allow_html=True)
+        st.markdown('<h1 class="hero-title">Cyber<span>Incident AI</span></h1>', unsafe_allow_html=True)
+        st.markdown('<p style="font-size: 16px; font-weight: 700; color: #335475; margin-bottom: 12px;">CYBERSECURITY INCIDENT ANALYSIS REPORT</p>', unsafe_allow_html=True)
+        st.markdown('<p class="hero-description">Upload incident reports or enter incident details to get AI-assisted analysis, extracted entities, relevant cybersecurity knowledge, potential impact and recommended response actions.</p>', unsafe_allow_html=True)
+        
+        if st.button("Get Started →", type="primary", key="home_get_started"):
             st.session_state["navigate_to_upload"] = True
             st.rerun()
 
     with hero_right:
         hero_image = ASSETS_DIR / "cybersecurity_hero.png"
-        logo_image = ASSETS_DIR / "cybersecurity_logo.png"
         if hero_image.exists():
-            st.image(str(hero_image))
-        elif logo_image.exists():
-            st.image(str(logo_image), width=360)
+            st.image(str(hero_image))  # Clean syntax compatible with modern Streamlit
         else:
-            st.markdown(
-                """
-                <div style="text-align:center;padding:80px 20px;color:#0a4b91;">
-                  <div style="font-size:100px;">🛡️</div>
-                  <h3>Cybersecurity Incident Analysis</h3>
-                  <p>Detect • Analyze • Respond</p>
+            st.markdown("""
+                <div class="image-placeholder">
+                    <div class="shield-icon">🛡️</div>
+                    <div class="placeholder-title">Cyber Incident Analysis</div>
+                    <div class="placeholder-subtitle">Detect • Analyze • Respond</div>
                 </div>
-                """,
-                unsafe_allow_html=True
-            )
+            """, unsafe_allow_html=True)
 
     st.markdown("<div style='height:10px'></div>", unsafe_allow_html=True)
     feature_columns = st.columns(4, gap="small")
