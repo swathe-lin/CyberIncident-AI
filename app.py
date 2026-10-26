@@ -2370,7 +2370,7 @@ if page == "Home":
         unsafe_allow_html=True
     )
 
-    hero_left, hero_right = st.columns([1.02, 0.98], gap="large", vertical_alignment="center")
+    hero_left, hero_right = st.columns([1.05, 0.95], gap="large")
 
     with hero_left:
         st.markdown(
@@ -2399,7 +2399,7 @@ if page == "Home":
         hero_image = ASSETS_DIR / "cybersecurity_hero.png"
         logo_image = ASSETS_DIR / "cybersecurity_logo.png"
         if hero_image.exists():
-            st.image(str(hero_image), use_column_width=True)
+            st.image(str(hero_image))
         elif logo_image.exists():
             st.image(str(logo_image), width=360)
         else:
