@@ -137,21 +137,18 @@ st.markdown(
 
 
 /* ============================================================
-   MAIN CONTAINER
+   MAIN CONTAINER (Balanced width 1280px, centered with good margins)
    ============================================================ */
 
 .block-container {
-
-    max-width: 1200px;
-
+    max-width: 1280px !important;
+    margin: 0 auto !important;
+    padding-left: 2rem !important;
+    padding-right: 2rem !important;
     padding-top: 1.8rem;
-
     padding-bottom: 3rem;
-
     position: relative;
-
     z-index: 1;
-
 }
 
 
