@@ -50,7 +50,7 @@ st.set_page_config(
 
 
 # ============================================================
-# FRONTEND CSS (Balanced Container Width & Centered Footer)
+# FRONTEND CSS (Expanded Wide Edge-to-Edge Container Layout)
 # ============================================================
 
 st.markdown(
@@ -119,14 +119,13 @@ st.markdown(
 
 
 /* ============================================================
-   MAIN CONTAINER (Balanced width 1280px, centered with good margins)
+   MAIN CONTAINER (Expanded to 100% wide matching reference UI)
    ============================================================ */
 
 .block-container {
-    max-width: 1280px !important;
-    margin: 0 auto !important;
-    padding-left: 2rem !important;
-    padding-right: 2rem !important;
+    max-width: 100% !important;
+    padding-left: 3rem !important;
+    padding-right: 3rem !important;
     padding-top: 1.8rem;
     padding-bottom: 3rem;
     position: relative;
@@ -377,21 +376,6 @@ textarea::placeholder {
         ) !important;
 }
 
-
-/* ============================================================
-   CENTERED FOOTER STYLING
-   ============================================================ */
-
-.footer {
-    text-align: center !important;
-    color: #6886a6 !important;
-    font-size: 14px !important;
-    font-weight: 600 !important;
-    margin-top: 3rem !important;
-    margin-bottom: 1.5rem !important;
-    width: 100% !important;
-}
-
 </style>
 """,
     unsafe_allow_html=True
@@ -399,7 +383,7 @@ textarea::placeholder {
 
 
 # ============================================================
-# BRANDED NAVIGATION BAR (MATCHING 1280px WIDTH)
+# BRANDED NAVIGATION BAR (WIDE EDGE-TO-EDGE)
 # ============================================================
 
 st.markdown(
@@ -408,7 +392,7 @@ st.markdown(
     div[data-testid="stHorizontalBlock"]:has(.app-brand){
       background:rgba(255,255,255,.96);border:1px solid #d6e8fb;border-radius:20px;
       padding:10px 22px;margin:0 auto 28px;box-shadow:0 8px 24px rgba(31,100,170,.09);
-      align-items:center;gap:14px;max-width:1280px !important;
+      align-items:center;gap:14px;max-width:100% !important;
     }
     .app-brand{display:flex !important;flex-direction:row !important;align-items:center !important;gap:12px;padding:0;margin:0;min-width:0;white-space:nowrap}
     .app-brand-logo{width:48px;height:48px;object-fit:contain;background:transparent !important;border-radius:0 !important;padding:0 !important;border:0 !important;box-shadow:none !important;flex:0 0 48px}
@@ -796,7 +780,7 @@ def extract_named_entities(incident_text, entities):
         patterns = [
             r"\bunusual location in\s+([A-Z][A-Za-z]+(?:,\s*[A-Z][A-Za-z]+)?)",
             r"\blocation\s+in\s+([A-Z][A-Za-z]+(?:,\s*[A-Z][A-Za-z]+)?)",
-            r"\b(?:from|in)\s+([A-Z][a-z]+(?:,\s*[A-Z][A-Za-z]+)?)"
+            r"\b(?:from|in)\s+([A-Z][a-z]+(?:,\s*[A-Z][a-z]+)?)"
         ]
         invalid = {"Cloud", "VPN", "Email", "Multiple", "The", "HIGH", "NovaGrid", "Sarah"}
         for pattern in patterns:
@@ -1478,7 +1462,7 @@ if page == "Evaluation" and st.session_state.get("analysis_ready", False) and "r
                     f'<div class="chart-row"><div class="chart-row-label">{name.replace("_", " ").title()}<span>{status}</span></div>'
                     f'<div class="chart-track"><div class="chart-fill" style="width:{pct}%;background:{colour};"></div></div></div>'
                 )
-            st.markdown('<div class="colour-chart">'.join(entity_rows_html) + '</div>', unsafe_allow_html=True)
+            st.markdown('<div class="colour-chart">' + ''.join(entity_rows_html) + '</div>', unsafe_allow_html=True)
         with right_panel:
             st.markdown('<div class="eval-panel"><div class="eval-panel-title">📚 RAG Retrieval Evaluation</div></div>', unsafe_allow_html=True)
             r1, r2, r3 = st.columns(3)
@@ -1525,7 +1509,8 @@ if page == "Evaluation" and st.session_state.get("analysis_ready", False) and "r
 st.markdown(
     """
 <div class="footer">
-    🔐 CyberIncident AI • AI-Powered Cybersecurity Incident Analysis
+    🔐 CyberIncident AI
+    • AI-Powered Cybersecurity Incident Analysis
 </div>
 """,
     unsafe_allow_html=True
